@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -9,13 +10,38 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
+
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 	sc.Split(bufio.ScanWords)
 }
 
 func main() {
-	
+	n := ScanI()
+	s := make([]string, n)
+	for i := 0; i < n; i++ {
+		s[i] = ScanS()
+	}
+
+	LOGOUT := "logout"
+	LOGIN := "login"
+	PRIVATE := "private"
+	st := LOGOUT
+
+	ans := 0
+	for _, op := range s {
+		if st == LOGOUT && op == PRIVATE {
+			ans++
+		}
+		if op == LOGOUT {
+			st = LOGOUT
+		}
+		if op == LOGIN {
+			st = LOGIN
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -9,13 +10,30 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
+
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 	sc.Split(bufio.ScanWords)
 }
 
 func main() {
-	
+	n := ScanI()
+	a, b := make([]int, n), make([]int, n)
+	ma, mb := math.MinInt, math.MinInt
+	for i := 0; i < n; i++ {
+		a[i] = ScanI()
+		if ma < a[i] {
+			ma = a[i]
+		}
+	}
+	for i := 0; i < n; i++ {
+		b[i] = ScanI()
+		if mb < b[i] {
+			mb = b[i]
+		}
+	}
+
+	fmt.Println(ma + mb)
 }
 
 func ScanI() int {

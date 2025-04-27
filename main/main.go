@@ -5,12 +5,8 @@ import (
 	"fmt"
 	"math"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
-
-	"github.com/liyue201/gostl/ds/set"
-	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -21,20 +17,8 @@ func init() {
 }
 
 func main() {
-	s1 := set.New[int](comparator.IntComparator, set.WithGoroutineSafe())
-	s1.Insert(1)
-	s1.Insert(2)
-	s2 := set.New[int](comparator.IntComparator, set.WithGoroutineSafe())
-	s2.Insert(1)
-	s3 := set.New[int](comparator.IntComparator, set.WithGoroutineSafe())
-	s3.Insert(1)
-	s3.Insert(2)
-	s3.Insert(3)
-	S := []*set.Set[int]{s1, s2, s3}
-	sort.Slice(S, func(i, j int) bool {
-		return S[i].Size() < S[j].Size()
-	})
-	fmt.Println(S)
+	a := "12345"
+	fmt.Println(a[:5])
 }
 
 func ScanI() int {

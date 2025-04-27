@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -16,7 +17,38 @@ func init() {
 }
 
 func main() {
+	m := ScanI()
 
+	n := 1
+	l := []int{1}
+	for i := 1; ; i++ {
+		n *= 3
+		if m < n {
+			break
+		}
+		l = append(l, n)
+	}
+
+	ans := make([]int, 0, 20)
+	for i := len(l) - 1; -1 < i; i-- {
+		if m == 0 {
+			break
+		}
+		for {
+			if m < l[i] {
+				break
+			}
+			// fmt.Printf("debug: m=%d, i=%d , l[i]=%d\n", m, i, l[i])
+			m -= l[i]
+			ans = append(ans, i)
+		}
+	}
+
+	fmt.Println(len(ans))
+	for _, v := range ans {
+		fmt.Print(v, " ")
+	}
+	fmt.Println()
 }
 
 func ScanI() int {

@@ -16,12 +16,11 @@ func init() {
 }
 
 func main() {
-	n := ScanI()
-	r := ScanI()
-	c := ScanI()
-	s := strings.Split(ScanS(), "")
-	tb := make([]bool, n)
-
+	// n := ScanI()
+	// r := ScanI()
+	// c := ScanI()
+	// s := strings.Split(ScanS(), "")
+	// tb := make([]bool, n)
 }
 
 func ScanI() int {
