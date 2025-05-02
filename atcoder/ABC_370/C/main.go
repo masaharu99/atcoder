@@ -8,7 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/liyue201/gostl/ds/deque"
+	"github.com/liyue201/gostl/ds/queue"
+	"github.com/liyue201/gostl/ds/stack"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -19,12 +20,37 @@ func init() {
 }
 
 func main() {
-	deque := deque.New[int]()
-	deque.PushFront(1)
-	deque.PushBack(2)
-	deque.PushFront(3)
-	fmt.Println(deque)
-	fmt.Println(deque.PopBack())
+	S, T := ScanS(), ScanS()
+	// X := make([]string, 0, len(S))
+
+	q := queue.New[int]()
+	s := stack.New[int]()
+	for i := 0; i < len(S); i++ {
+		if S[i] == T[i] {
+			continue
+		}
+		if S[i] > T[i] {
+			q.Push(i)
+		} else {
+			s.Push(i)
+		}
+	}
+	fmt.Println(q.Size() + s.Size())
+
+	cur := S
+	for !q.Empty() {
+		i := q.Pop()
+		cur = cur[:i] + string(T[i]) + cur[i+1:]
+		fmt.Println(cur)
+		// X = append(X, cur)
+	}
+	for !s.Empty() {
+		i := s.Pop()
+		cur = cur[:i] + string(T[i]) + cur[i+1:]
+		fmt.Println(cur)
+		// X = append(X, cur)
+	}
+
 }
 
 func ScanI() int {

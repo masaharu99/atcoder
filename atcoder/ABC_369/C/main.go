@@ -7,8 +7,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/liyue201/gostl/ds/deque"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -19,12 +17,36 @@ func init() {
 }
 
 func main() {
-	deque := deque.New[int]()
-	deque.PushFront(1)
-	deque.PushBack(2)
-	deque.PushFront(3)
-	fmt.Println(deque)
-	fmt.Println(deque.PopBack())
+	N := ScanI()
+	A := make([]int, N)
+	for i := 0; i < N; i++ {
+		A[i] = ScanI()
+	}
+
+	d := math.MaxInt
+	n := 1
+	ans := 1
+	for i := 0; i < N-1; i++ {
+		if d == math.MaxInt {
+			d = A[i] - A[i+1]
+			n++
+			ans += n
+			// fmt.Printf("%d回目：n=%d, ans=%d\n", i+1, n, d)
+			continue
+		}
+
+		if d == A[i]-A[i+1] {
+			n++
+			ans += n
+		} else {
+			d = A[i] - A[i+1]
+			n = 2
+			ans += n
+		}
+		// fmt.Printf("%d回目：n=%d, ans=%d\n", i+1, n, d)
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {

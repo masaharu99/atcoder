@@ -7,8 +7,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/liyue201/gostl/ds/deque"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -19,12 +17,27 @@ func init() {
 }
 
 func main() {
-	deque := deque.New[int]()
-	deque.PushFront(1)
-	deque.PushBack(2)
-	deque.PushFront(3)
-	fmt.Println(deque)
-	fmt.Println(deque.PopBack())
+	N := ScanI()
+	l, r := 0, 0
+	ans := 0
+	for i := 0; i < N; i++ {
+		a := ScanI()
+		s := ScanS()
+		if s == "L" {
+			if l != 0 {
+				d := float64(l - a)
+				ans += int(math.Abs(d))
+			}
+			l = a
+		} else {
+			if r != 0 {
+				d := float64(r - a)
+				ans += int(math.Abs(d))
+			}
+			r = a
+		}
+	}
+	fmt.Println(ans)
 }
 
 func ScanI() int {

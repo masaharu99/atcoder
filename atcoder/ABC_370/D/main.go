@@ -2,29 +2,20 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/liyue201/gostl/ds/deque"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
-
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 	sc.Split(bufio.ScanWords)
 }
 
 func main() {
-	deque := deque.New[int]()
-	deque.PushFront(1)
-	deque.PushBack(2)
-	deque.PushFront(3)
-	fmt.Println(deque)
-	fmt.Println(deque.PopBack())
+	
 }
 
 func ScanI() int {
