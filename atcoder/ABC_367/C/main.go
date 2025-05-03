@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -9,6 +10,9 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
+var N, K int
+var R []int
+var ans = make([][]int, 0, int(math.Pow(5, 8)))
 
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
@@ -16,27 +20,39 @@ func init() {
 }
 
 func main() {
-	N := ScanI()
-	M := ScanI()
-	node := make([][]int, N+1)
-	for i := 0; i < M; i++ {
-		a, b := ScanI(), ScanI()
-		node[a] = append(node[a], b)
-		node[b] = append(node[b], a)
+	N, K = ScanI(), ScanI()
+	R = make([]int, N)
+	for i := 0; i < N; i++ {
+		R[i] = ScanI()
 	}
 
+	add := make([]int, N)
+	dfs(0, add, 0)
+
+	for _, vl := range ans {
+		for _, v := range vl {
+			fmt.Print(v, " ")
+		}
+		fmt.Println()
+	}
 }
 
-func dfs(cur int, node [][]int, seen []bool, i int, g int) bool {
-	if i == len(seen) {
-		if cur == g {
-			return true
-		} else {
-			return false
+func dfs(i int, add []int, sum int) {
+	if i == N {
+		if sum%K == 0 {
+			nAdd := make([]int, len(add))
+			copy(nAdd, add)
+			ans = append(ans, nAdd)
 		}
+		return
 	}
 
-	return true
+	for j := 1; j < R[i]+1; j++ {
+		add[i] = j
+		sum += j
+		dfs(i+1, add, sum)
+		sum -= j
+	}
 }
 
 func ScanI() int {

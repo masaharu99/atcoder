@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -16,27 +17,17 @@ func init() {
 }
 
 func main() {
-	N := ScanI()
-	M := ScanI()
-	node := make([][]int, N+1)
-	for i := 0; i < M; i++ {
-		a, b := ScanI(), ScanI()
-		node[a] = append(node[a], b)
-		node[b] = append(node[b], a)
-	}
+	S := ScanS()
+	a := 'a'
+	z := 'z'
 
-}
-
-func dfs(cur int, node [][]int, seen []bool, i int, g int) bool {
-	if i == len(seen) {
-		if cur == g {
-			return true
-		} else {
-			return false
+	for i := a; i < z+1; i++ {
+		s := string(i)
+		if !strings.Contains(S, s) {
+			fmt.Println(s)
+			break
 		}
 	}
-
-	return true
 }
 
 func ScanI() int {

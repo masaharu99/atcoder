@@ -9,34 +9,13 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
-
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 	sc.Split(bufio.ScanWords)
 }
 
 func main() {
-	N := ScanI()
-	M := ScanI()
-	node := make([][]int, N+1)
-	for i := 0; i < M; i++ {
-		a, b := ScanI(), ScanI()
-		node[a] = append(node[a], b)
-		node[b] = append(node[b], a)
-	}
-
-}
-
-func dfs(cur int, node [][]int, seen []bool, i int, g int) bool {
-	if i == len(seen) {
-		if cur == g {
-			return true
-		} else {
-			return false
-		}
-	}
-
-	return true
+	
 }
 
 func ScanI() int {

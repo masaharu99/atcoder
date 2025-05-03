@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -17,26 +19,29 @@ func init() {
 
 func main() {
 	N := ScanI()
-	M := ScanI()
-	node := make([][]int, N+1)
-	for i := 0; i < M; i++ {
-		a, b := ScanI(), ScanI()
-		node[a] = append(node[a], b)
-		node[b] = append(node[b], a)
+	A := make([]int, N)
+	for i := 0; i < N; i++ {
+		A[i] = ScanI()
 	}
 
+	ans := 0
+	for {
+		sortA(A)
+		if A[1] == 0 {
+			break
+		}
+		A[0]--
+		A[1]--
+		ans++
+	}
+
+	fmt.Println(ans)
 }
 
-func dfs(cur int, node [][]int, seen []bool, i int, g int) bool {
-	if i == len(seen) {
-		if cur == g {
-			return true
-		} else {
-			return false
-		}
-	}
-
-	return true
+func sortA(A []int) {
+	sort.Slice(A, func(i, j int) bool {
+		return A[i] > A[j]
+	})
 }
 
 func ScanI() int {
