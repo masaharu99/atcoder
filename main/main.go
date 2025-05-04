@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -9,6 +10,8 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
+var N, M int
+var node [][]int
 
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
@@ -19,24 +22,40 @@ func main() {
 	N := ScanI()
 	M := ScanI()
 	node := make([][]int, N+1)
+
 	for i := 0; i < M; i++ {
-		a, b := ScanI(), ScanI()
-		node[a] = append(node[a], b)
-		node[b] = append(node[b], a)
+		A, B := ScanI(), ScanI()
+		node[A] = append(node[A], B)
+		node[B] = append(node[B], A)
 	}
 
-}
-
-func dfs(cur int, node [][]int, seen []bool, i int, g int) bool {
-	if i == len(seen) {
-		if cur == g {
-			return true
-		} else {
-			return false
+	for i := 1; i < N+1; i++ {
+		if len(node[i]) != 2 {
+			fmt.Println("No")
+			return
 		}
 	}
 
-	return true
+	seen := make([]bool, N+1)
+	var dfs func(int)
+	dfs = func(cur int) {
+		seen[cur] = true
+		for _, next := range node[cur] {
+			if !seen[next] {
+				dfs(next)
+			}
+		}
+	}
+	dfs(1)
+
+	for i := 1; i < N; i++ {
+		if !seen[i] {
+			fmt.Println("No")
+			return
+		}
+	}
+
+	fmt.Println("Yes")
 }
 
 func ScanI() int {
@@ -68,4 +87,51 @@ func ScanIArrayWithBlank(n int) []int {
 	}
 
 	return arrI
+}
+
+type UnionFind struct {
+	n    int
+	root []int
+}
+
+func NewUnionFind(n int) UnionFind {
+	root := make([]int, n+1)
+	for i := 0; i < n; i++ {
+		root[i] = -1
+	}
+
+	return UnionFind{n, root}
+}
+
+func (uf UnionFind) Leader(x int) int {
+	if uf.root[x] < 0 {
+		return x
+	}
+
+	uf.root[x] = uf.Leader(uf.root[x])
+	return uf.root[x]
+}
+
+func (uf UnionFind) Merge(x, y int) int {
+	xr := uf.Leader(x)
+	yr := uf.Leader(y)
+	if xr == yr {
+		return xr
+	}
+
+	if -uf.root[xr] < -uf.root[yr] {
+		xr, yr = yr, xr
+	}
+	uf.root[xr] += uf.root[yr]
+	uf.root[yr] = xr
+
+	return xr
+}
+
+func (uf UnionFind) Same(x, y int) bool {
+	if uf.Leader(x) == uf.Leader(y) {
+		return true
+	}
+
+	return false
 }
