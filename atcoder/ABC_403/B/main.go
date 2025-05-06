@@ -10,8 +10,6 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
-var N, M int
-var node [][]int
 
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
@@ -19,8 +17,22 @@ func init() {
 }
 
 func main() {
-	a := []int{1, 2, 3, 4, 5}
-	fmt.Println(a[0:3])
+	t, u := strings.Split(ScanS(), ""), strings.Split(ScanS(), "")
+
+	for i := 0; i < len(t)-len(u)+1; i++ {
+		isYes := true
+		for j, us := range u {
+			if (us != t[i+j]) && (t[i+j] != "?") {
+				isYes = false
+			}
+		}
+		if isYes {
+			fmt.Println("Yes")
+			return
+		}
+	}
+
+	fmt.Println("No")
 }
 
 func ScanI() int {

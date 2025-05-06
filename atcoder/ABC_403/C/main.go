@@ -7,11 +7,12 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
+	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
-var N, M int
-var node [][]int
 
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
@@ -19,8 +20,41 @@ func init() {
 }
 
 func main() {
-	a := []int{1, 2, 3, 4, 5}
-	fmt.Println(a[0:3])
+	n, _, q := ScanI(), ScanI(), ScanI()
+	ok := make([]*set.Set[int], n+1)
+	for i := 0; i < n+1; i++ {
+		ok[i] = set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	}
+
+	ansArr := make([]bool, 0, q)
+
+	for i := 0; i < q; i++ {
+		t := ScanI()
+		switch t {
+		case 1:
+			x, y := ScanI(), ScanI()
+			ok[x].Insert(y)
+		case 2:
+			x := ScanI()
+			ok[x].Insert(0)
+		case 3:
+			x, y := ScanI(), ScanI()
+			b := ok[x].Contains(0) || ok[x].Contains(y)
+			if b == true {
+				ansArr = append(ansArr, true)
+			} else {
+				ansArr = append(ansArr, false)
+			}
+		}
+	}
+
+	for _, ans := range ansArr {
+		if ans {
+			fmt.Println("Yes")
+		} else {
+			fmt.Println("No")
+		}
+	}
 }
 
 func ScanI() int {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -10,8 +9,6 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
-var N, M int
-var node [][]int
 
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
@@ -19,8 +16,7 @@ func init() {
 }
 
 func main() {
-	a := []int{1, 2, 3, 4, 5}
-	fmt.Println(a[0:3])
+
 }
 
 func ScanI() int {
