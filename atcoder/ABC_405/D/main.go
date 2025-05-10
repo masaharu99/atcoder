@@ -27,20 +27,15 @@ func main() {
 	h, w := ScanI(), ScanI()
 	s := make([][]string, h)
 	q := queue.New[Queue]()
-	d := make([][]int, h)
-	for i := 0; i < h; i++ {
-		d[i] = make([]int, w)
-		for j := 0; j < w; j++ {
-			d[i][j] = -1
-		}
-	}
-
 	for i := 0; i < h; i++ {
 		in := ScanS()
 		s[i] = strings.Split(in, "")
-		if j := strings.Index(in, "E"); j != -1 {
-			q.Push(Queue{i, j})
-			d[i][j] = 0
+		if strings.Contains(in, "E") {
+			for j := 0; j < w; j++ {
+				if in[j] == 'E' {
+					q.Push(Queue{i, j})
+				}
+			}
 		}
 	}
 
@@ -53,47 +48,14 @@ func main() {
 
 	for !q.Empty() {
 		t := q.Pop()
-		for _, direction := range directions {
-			ni, nj := t.i+direction[0], t.j+direction[1]
+		for _, d := range directions {
+			ni, nj := t.i+d[0], t.j+d[1]
 			if ni < 0 || h <= ni || nj < 0 || w <= nj {
 				continue
 			}
-			if d[ni][nj] != -1 {
-				continue
-			}
-			if s[ni][nj] != "." {
-				continue
-			}
-
-			q.Push(Queue{ni, nj})
-			d[ni][nj] = d[t.i][t.j] + 1
-		}
-	}
-
-	for i := 0; i < h; i++ {
-		for j := 0; j < w; j++ {
-			min := math.MaxInt
-			if s[i][j] != "." {
-				continue
-			}
-			for di, direction := range directions {
-				ni, nj := direction[0], direction[1]
-				if ni < 0 || h <= ni || nj < 0 || w <= nj {
-					continue
-				}
-				if d[ni][nj] < min && min != -1 {
-					min = d[ni][nj]
-					switch di {
-					case 0:
-						s[i][j] = ">"
-					case 1:
-						s[i][j] = "<"
-					case 2:
-						s[i][j] = "v"
-					case 3:
-						s[i][j] = "^"
-					}
-				}
+			if s[ni][nj] == "." {
+				q.Push(Queue{ni, nj})
+				s[ni][nj] = getAllow(d[0], d[1])
 			}
 		}
 	}
