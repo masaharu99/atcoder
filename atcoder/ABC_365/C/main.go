@@ -17,7 +17,47 @@ func init() {
 }
 
 func main() {
-	fmt.Println(10e2)
+	n, m := ScanI(), ScanI()
+	a := make([]int, n)
+	sum := 0
+	for i := 0; i < n; i++ {
+		a[i] = ScanI()
+		sum += a[i]
+	}
+
+	if sum <= m {
+		fmt.Println("infinite")
+		return
+	}
+
+	min, max := 1, int(2e14)
+	for max-min != 1 {
+		half := (min + max) / 2
+		s := 0
+		for _, v := range a {
+			if v < half {
+				s += v
+			} else {
+				s += half
+			}
+		}
+
+		// debug
+		// if half == 2 {
+		// 	fmt.Printf("debug(2): s=%d\n", s)
+		// }
+		// if half == 3 {
+		// 	fmt.Printf("debug(3): s=%d\n", s)
+		// }
+
+		if s <= m {
+			min = half
+		} else {
+			max = half
+		}
+	}
+
+	fmt.Println(min)
 }
 
 func ScanI() int {

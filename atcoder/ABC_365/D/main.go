@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -17,7 +16,7 @@ func init() {
 }
 
 func main() {
-	fmt.Println(10e2)
+
 }
 
 func ScanI() int {

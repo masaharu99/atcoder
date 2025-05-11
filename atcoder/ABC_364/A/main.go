@@ -17,7 +17,27 @@ func init() {
 }
 
 func main() {
-	fmt.Println(10e2)
+	n := ScanI()
+	s := make([]string, n)
+	for i := 0; i < n; i++ {
+		s[i] = ScanS()
+	}
+
+	en := 0
+	for _, v := range s {
+		if en == 2 {
+			fmt.Println("No")
+			return
+		}
+
+		if v == "sweet" {
+			en++
+		} else {
+			en = 0
+		}
+	}
+
+	fmt.Println("Yes")
 }
 
 func ScanI() int {

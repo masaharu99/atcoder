@@ -17,7 +17,20 @@ func init() {
 }
 
 func main() {
-	fmt.Println(10e2)
+	y := ScanI()
+
+	ans := 0
+	if y%4 != 0 {
+		ans = 365
+	} else if y%100 != 0 {
+		ans = 366
+	} else if y%400 != 0 {
+		ans = 365
+	} else {
+		ans = 366
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {

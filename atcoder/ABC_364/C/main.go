@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -17,7 +18,57 @@ func init() {
 }
 
 func main() {
-	fmt.Println(10e2)
+	n, x, y := ScanI(), ScanI(), ScanI()
+	a, b := make([]int, n), make([]int, n)
+	as, bs := 0, 0
+	for i := 0; i < n; i++ {
+		a[i] = ScanI()
+		as += a[i]
+	}
+	for i := 0; i < n; i++ {
+		b[i] = ScanI()
+		bs += b[i]
+	}
+
+	minA, minB := 0, 0
+	if as <= x {
+		minA = n
+	}
+	if bs <= y {
+		minB = n
+	}
+
+	sort.Slice(a, func(i, j int) bool {
+		return a[i] > a[j]
+	})
+	sort.Slice(b, func(i, j int) bool {
+		return b[i] > b[j]
+	})
+
+	if minA == 0 {
+		minA = calMin(a, n, x)
+	}
+	if minB == 0 {
+		minB = calMin(b, n, y)
+	}
+
+	if minA < minB {
+		fmt.Println(minA)
+	} else {
+		fmt.Println(minB)
+	}
+}
+
+func calMin(arr []int, n, max int) int {
+	sum := 0
+	for i := 0; i < n; i++ {
+		sum += arr[i]
+		if max < sum {
+			return i + 1
+		}
+	}
+
+	return n
 }
 
 func ScanI() int {

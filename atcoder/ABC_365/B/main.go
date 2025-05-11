@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -17,7 +18,23 @@ func init() {
 }
 
 func main() {
-	fmt.Println(10e2)
+	n := ScanI()
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = ScanI()
+	}
+
+	na := make([]int, n)
+	copy(na, a)
+	sort.Slice(na, func(i, j int) bool {
+		return na[i] > na[j]
+	})
+
+	for i, v := range a {
+		if v == na[1] {
+			fmt.Println(i + 1)
+		}
+	}
 }
 
 func ScanI() int {

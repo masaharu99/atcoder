@@ -17,7 +17,51 @@ func init() {
 }
 
 func main() {
-	fmt.Println(10e2)
+	h, w := ScanI(), ScanI()
+	si, sj := ScanI()-1, ScanI()-1
+	c := make([][]string, h)
+	for i := 0; i < h; i++ {
+		c[i] = strings.Split(ScanS(), "")
+	}
+	x := ScanS()
+
+	for _, v := range x {
+		if v == 'L' {
+			if sj-1 < 0 {
+				continue
+			}
+			if c[si][sj-1] == "." {
+				sj--
+			}
+		}
+		if v == 'R' {
+			if w <= sj+1 {
+				continue
+			}
+			if c[si][sj+1] == "." {
+				sj++
+			}
+		}
+		if v == 'U' {
+			if si-1 < 0 {
+				continue
+			}
+			if c[si-1][sj] == "." {
+				si--
+			}
+		}
+		if v == 'D' {
+			if h <= si+1 {
+				continue
+			}
+			if c[si+1][sj] == "." {
+				si++
+			}
+		}
+		// fmt.Printf("debug: v=%s, si=%d, sj=%d\n", string(v), si+1, sj+1)
+	}
+
+	fmt.Println(si+1, sj+1)
 }
 
 func ScanI() int {

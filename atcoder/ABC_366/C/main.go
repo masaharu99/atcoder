@@ -2,10 +2,14 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
+	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -16,7 +20,36 @@ func init() {
 }
 
 func main() {
+	q := ScanI()
+	query := make([][]int, q)
+	for i := 0; i < q; i++ {
+		t := ScanI()
+		if t == 3 {
+			query[i] = []int{t}
+		} else {
+			v := ScanI()
+			query[i] = []int{t, v}
+		}
+	}
 
+	fmt.Println()
+	s := set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	cnt := make([]int, 1e6+1)
+	for _, v := range query {
+		if v[0] == 1 {
+			s.Insert(v[1])
+			cnt[v[1]]++
+		} else if v[0] == 2 {
+			if cnt[v[1]] != 0 {
+				cnt[v[1]]--
+			}
+			if cnt[v[1]] == 0 {
+				s.Erase(v[1])
+			}
+		} else {
+			fmt.Println(s.Size())
+		}
+	}
 }
 
 func ScanI() int {
