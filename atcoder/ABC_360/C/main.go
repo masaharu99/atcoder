@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -16,7 +17,38 @@ func init() {
 }
 
 func main() {
+	n := ScanI()
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = ScanI()
+	}
+	w := make([]int, n)
+	for i := 0; i < n; i++ {
+		w[i] = ScanI()
+	}
 
+	boxToWeightList := make([][]int, n)
+	for i := 0; i < n; i++ {
+		box := a[i] - 1
+		boxToWeightList[box] = append(boxToWeightList[box], w[i])
+	}
+
+	ans := 0
+	for _, wList := range boxToWeightList {
+		sum, max := 0, 0
+		if len(wList) == 0 {
+			continue
+		}
+		for _, w := range wList {
+			sum += w
+			if max < w {
+				max = w
+			}
+		}
+		ans += sum - max
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {
