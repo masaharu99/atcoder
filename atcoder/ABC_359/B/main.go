@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"math"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -18,11 +17,20 @@ func init() {
 }
 
 func main() {
-	a := []int{3, 6, 7, 4, 12, 4, 8, 11, 11, 1, 8, 11}
-	sort.Slice(a, func(i, j int) bool {
-		return a[i] < a[j]
-	})
-	fmt.Println(a)
+	n := ScanI()
+	a := make([]int, 2*n)
+	for i := 0; i < 2*n; i++ {
+		a[i] = ScanI()
+	}
+
+	ans := 0
+	for i := 2; i < 2*n; i++ {
+		if a[i-2] == a[i] {
+			ans++
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {

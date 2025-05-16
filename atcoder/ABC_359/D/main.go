@@ -2,10 +2,8 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -18,11 +16,7 @@ func init() {
 }
 
 func main() {
-	a := []int{3, 6, 7, 4, 12, 4, 8, 11, 11, 1, 8, 11}
-	sort.Slice(a, func(i, j int) bool {
-		return a[i] < a[j]
-	})
-	fmt.Println(a)
+
 }
 
 func ScanI() int {
