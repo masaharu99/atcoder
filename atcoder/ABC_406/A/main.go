@@ -17,8 +17,18 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
-	fmt.Println(a)
+	a, b, c, d := ScanI(), ScanI(), ScanI(), ScanI()
+
+	if c < a {
+		fmt.Println("Yes")
+		return
+	}
+	if a == c && d < b {
+		fmt.Println("Yes")
+		return
+	}
+
+	fmt.Println("No")
 }
 
 func ScanI() int {

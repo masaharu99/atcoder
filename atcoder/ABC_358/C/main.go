@@ -7,6 +7,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
+	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -17,8 +20,33 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
-	fmt.Println(a)
+	n, m := ScanI(), ScanI()
+	s := make([]string, n)
+	for i := 0; i < n; i++ {
+		s[i] = ScanS()
+	}
+
+	ans := 11
+	for bit := 0; bit < (1 << n); bit++ {
+		buy := set.New(comparator.IntComparator, set.WithGoroutineSafe())
+		move := 0
+		for i := 0; i < n; i++ {
+			if (bit>>i)&1 != 1 {
+				continue
+			}
+			move++
+			for i, v := range s[i] {
+				if v == 'o' {
+					buy.Insert(i)
+				}
+			}
+		}
+		if buy.Size() == m && move < ans {
+			ans = move
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {

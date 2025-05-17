@@ -17,8 +17,23 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
-	fmt.Println(a)
+	n, m := ScanI(), ScanI()
+	h := make([]int, n)
+	for i := 0; i < n; i++ {
+		h[i] = ScanI()
+	}
+
+	sum := 0
+	for i, v := range h {
+		if sum+v <= m {
+			sum += v
+		} else {
+			fmt.Println(i)
+			return
+		}
+	}
+
+	fmt.Println(n)
 }
 
 func ScanI() int {

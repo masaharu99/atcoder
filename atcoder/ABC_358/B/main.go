@@ -17,8 +17,21 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
-	fmt.Println(a)
+	n, a := ScanI(), ScanI()
+	t := make([]int, n)
+	for i := 0; i < n; i++ {
+		t[i] = ScanI()
+	}
+
+	now := 0
+	for _, v := range t {
+		if v <= now {
+			now += a
+		} else {
+			now += a + (v - now)
+		}
+		fmt.Println(now)
+	}
 }
 
 func ScanI() int {

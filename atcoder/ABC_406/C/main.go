@@ -17,8 +17,40 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
-	fmt.Println(a)
+	n := ScanI()
+	p := make([]int, n)
+	for i := 0; i < n; i++ {
+		p[i] = ScanI()
+	}
+
+	ans := 0
+	for i := 0; i < n-2; i++ {
+		if !(p[i] < p[i+1]) {
+			continue
+		}
+
+		b1, b2 := false, false
+		for j := i; j < n-2; j++ {
+			if p[j] < p[j+1] && p[j+1] > p[j+2] {
+				if b1 {
+					break
+				}
+				b1 = true
+			}
+			if p[j] > p[j+1] && p[j+1] < p[j+2] {
+				if b2 {
+					break
+				}
+				b2 = true
+			}
+			if b1 && b2 {
+				ans++
+			}
+			// fmt.Printf("debug: i=%d, j=%d b1=%t, b2=%t\n", i, j, b1, b2)
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {

@@ -17,8 +17,12 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
-	fmt.Println(a)
+	s, t := ScanS(), ScanS()
+	if s == "AtCoder" && t == "Land" {
+		fmt.Println("Yes")
+	} else {
+		fmt.Println("No")
+	}
 }
 
 func ScanI() int {

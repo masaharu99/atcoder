@@ -17,8 +17,31 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
-	fmt.Println(a)
+	n, k := ScanI(), ScanI()
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = ScanI()
+	}
+
+	// max := uint(1)
+	// for i := 0; i < k; i++ {
+	// 	max *= 10
+	// }
+
+	ans := uint(1)
+	for _, v := range a {
+		ans *= uint(v)
+		digit, num := 0, ans
+		for num != 0 {
+			num /= 10
+			digit++
+		}
+		if k < digit {
+			ans = 1
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {

@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -17,8 +18,20 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
-	fmt.Println(a)
+	s := ScanS()
+
+	bn := 0
+	for _, v := range s {
+		if unicode.IsUpper(v) {
+			bn++
+		}
+	}
+
+	if (len(s) - bn) < bn {
+		fmt.Println(strings.ToUpper(s))
+	} else {
+		fmt.Println(strings.ToLower(s))
+	}
 }
 
 func ScanI() int {
