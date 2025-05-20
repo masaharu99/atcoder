@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"math"
+	"math/big"
 	"os"
 	"strconv"
 	"strings"
@@ -17,7 +18,8 @@ func init() {
 }
 
 func main() {
-	a := uint(math.Pow10(18))
+	a := big.NewInt(1)
+	a.Mul(a, big.NewInt(10))
 	fmt.Println(a)
 }
 

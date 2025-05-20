@@ -7,6 +7,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
+	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -16,53 +19,50 @@ func init() {
 	sc.Split(bufio.ScanWords)
 }
 
-type Pair struct {
-	cmp string
-	num int
-}
-
 func main() {
-	n := ScanI()
-	p := make([]int, n)
-	for i := 0; i < n; i++ {
-		p[i] = ScanI()
+	n, t := ScanI(), ScanI()
+	a := ScanIArrayWithBlank(t)
+
+	ds1 := set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	ds2 := set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	for i := 1; i < n*n+1; i += n + 1 {
+		ds1.Insert(i)
+	}
+	for i := n; i < 1+n*(n-1)+1; i += n - 1 {
+		ds2.Insert(i)
 	}
 
-	arr := make([]string, n-1)
-	for i := 0; i < n-1; i++ {
-		if p[i] < p[i+1] {
-			arr[i] = "<"
-		} else {
-			arr[i] = ">"
+	ver, hor := make([]int, n+1), make([]int, n+1)
+	dia1, dia2 := n, n
+	for i := 0; i < n+1; i++ {
+		ver[i] = n
+		hor[i] = n
+	}
+
+	for i, v := range a {
+		ni := v / n
+		if v%n != 0 {
+			ni++
+		}
+		ver[ni]--
+
+		nj := v - n*(ni-1)
+		hor[nj]--
+
+		if ds1.Contains(v) {
+			dia1--
+		}
+		if ds2.Contains(v) {
+			dia2--
+		}
+
+		if ver[ni] == 0 || hor[nj] == 0 || dia1 == 0 || dia2 == 0 {
+			fmt.Println(i + 1)
+			return
 		}
 	}
 
-	var cmpl []Pair
-	for i, v := range arr {
-		if i == 0 {
-			cmpl = append(cmpl, Pair{v, 1})
-			continue
-		}
-		prev := len(cmpl) - 1
-		if cmpl[prev].cmp == v {
-			cmpl[prev].num++
-		} else {
-			cmpl = append(cmpl, Pair{v, 1})
-		}
-	}
-
-	ans := 0
-	for i := 1; i < len(cmpl)-1; i++ {
-		if cmpl[i].cmp != ">" {
-			continue
-		}
-		if cmpl[i-1].cmp != "<" || cmpl[i+1].cmp != "<" {
-			continue
-		}
-		ans += cmpl[i-1].num * cmpl[i+1].num
-	}
-
-	fmt.Println(ans)
+	fmt.Println(-1)
 }
 
 func ScanI() int {

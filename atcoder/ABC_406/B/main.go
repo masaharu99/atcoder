@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"math"
+	"math/big"
 	"os"
 	"strconv"
 	"strings"
@@ -23,21 +24,17 @@ func main() {
 		a[i] = ScanI()
 	}
 
-	// max := uint(1)
-	// for i := 0; i < k; i++ {
-	// 	max *= 10
-	// }
+	max := big.NewInt(1)
+	for i := 0; i < k; i++ {
+		max.Mul(max, big.NewInt(10))
+	}
+	max.Sub(max, big.NewInt(1))
 
-	ans := uint(1)
+	ans := big.NewInt(1)
 	for _, v := range a {
-		ans *= uint(v)
-		digit, num := 0, ans
-		for num != 0 {
-			num /= 10
-			digit++
-		}
-		if k < digit {
-			ans = 1
+		ans.Mul(ans, big.NewInt(int64(v)))
+		if ans.Cmp(max) == 1 {
+			ans = big.NewInt(1)
 		}
 	}
 

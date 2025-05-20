@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -16,53 +15,8 @@ func init() {
 	sc.Split(bufio.ScanWords)
 }
 
-type Pair struct {
-	cmp string
-	num int
-}
-
 func main() {
-	n := ScanI()
-	p := make([]int, n)
-	for i := 0; i < n; i++ {
-		p[i] = ScanI()
-	}
 
-	arr := make([]string, n-1)
-	for i := 0; i < n-1; i++ {
-		if p[i] < p[i+1] {
-			arr[i] = "<"
-		} else {
-			arr[i] = ">"
-		}
-	}
-
-	var cmpl []Pair
-	for i, v := range arr {
-		if i == 0 {
-			cmpl = append(cmpl, Pair{v, 1})
-			continue
-		}
-		prev := len(cmpl) - 1
-		if cmpl[prev].cmp == v {
-			cmpl[prev].num++
-		} else {
-			cmpl = append(cmpl, Pair{v, 1})
-		}
-	}
-
-	ans := 0
-	for i := 1; i < len(cmpl)-1; i++ {
-		if cmpl[i].cmp != ">" {
-			continue
-		}
-		if cmpl[i-1].cmp != "<" || cmpl[i+1].cmp != "<" {
-			continue
-		}
-		ans += cmpl[i-1].num * cmpl[i+1].num
-	}
-
-	fmt.Println(ans)
 }
 
 func ScanI() int {
