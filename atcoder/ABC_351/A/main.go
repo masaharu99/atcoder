@@ -17,18 +17,15 @@ func init() {
 }
 
 func main() {
-	n := ScanI()
-	h := ScanIArrayWithBlank(n)
-
-	f := h[0]
-	for i, v := range h {
-		if f < v {
-			fmt.Println(i + 1)
-			return
-		}
+	sa, sb := 0, 0
+	for i := 0; i < 9; i++ {
+		sa += ScanI()
+	}
+	for i := 0; i < 8; i++ {
+		sb += ScanI()
 	}
 
-	fmt.Println(-1)
+	fmt.Println(sa - sb + 1)
 }
 
 func ScanI() int {

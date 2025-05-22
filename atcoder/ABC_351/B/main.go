@@ -18,17 +18,21 @@ func init() {
 
 func main() {
 	n := ScanI()
-	h := ScanIArrayWithBlank(n)
-
-	f := h[0]
-	for i, v := range h {
-		if f < v {
-			fmt.Println(i + 1)
-			return
-		}
+	a, b := make([]string, n), make([]string, n)
+	for i := 0; i < n; i++ {
+		a[i] = ScanS()
+	}
+	for i := 0; i < n; i++ {
+		b[i] = ScanS()
 	}
 
-	fmt.Println(-1)
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			if a[i][j] != b[i][j] {
+				fmt.Println(i+1, j+1)
+			}
+		}
+	}
 }
 
 func ScanI() int {

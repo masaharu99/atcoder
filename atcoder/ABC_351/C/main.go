@@ -7,6 +7,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/stack"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -18,17 +20,24 @@ func init() {
 
 func main() {
 	n := ScanI()
-	h := ScanIArrayWithBlank(n)
+	a := ScanIArrayWithBlank(n)
 
-	f := h[0]
-	for i, v := range h {
-		if f < v {
-			fmt.Println(i + 1)
-			return
-		}
+	s := stack.New[int]()
+	for _, v := range a {
+		f(s, v)
 	}
 
-	fmt.Println(-1)
+	fmt.Println(s.Size())
+}
+
+func f(s *stack.Stack[int], v int) {
+	if s.Size() == 0 || s.Top() != v {
+		s.Push(v)
+		return
+	}
+
+	s.Pop()
+	f(s, v+1)
 }
 
 func ScanI() int {

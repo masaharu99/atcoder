@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -16,7 +17,20 @@ func init() {
 }
 
 func main() {
+	n, k := ScanI(), ScanI()
+	a := ScanIArrayWithBlank(n)
 
+	c, s := 0, k
+	for _, v := range a {
+		if v <= s {
+			s -= v
+		} else {
+			c++
+			s = k - v
+		}
+	}
+
+	fmt.Println(c + 1)
 }
 
 func ScanI() int {
