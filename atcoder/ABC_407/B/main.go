@@ -7,6 +7,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
+	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -16,22 +19,32 @@ func init() {
 	sc.Split(bufio.ScanWords)
 }
 
-func main() {
-	a := uint(1152921505000000000)
-	b := 1152921505000000000
-	c := math.Pow(2, 60)
-	fmt.Println(a)
-	fmt.Println(b)
-	fmt.Println(c)
-	fmt.Println(uint(c))
+type Pair struct {
+	x int
+	y int
 }
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+func main() {
+	x, y := ScanI(), ScanI()
+	s := set.New(comparator.StringComparator, set.WithGoroutineSafe())
+
+	for i := 1; i < 7; i++ {
+		for j := 1; j < 7; j++ {
+			if x <= i+j {
+				s.Insert(strconv.Itoa(i) + "," + strconv.Itoa(j))
+			}
+
+			d := j - i
+			if j < i {
+				d = i - j
+			}
+			if y <= d {
+				s.Insert(strconv.Itoa(i) + "," + strconv.Itoa(j))
+			}
+		}
 	}
-	return string(runes)
+
+	fmt.Println(float64(s.Size()) / 36)
 }
 
 func ScanI() int {

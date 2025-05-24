@@ -17,13 +17,23 @@ func init() {
 }
 
 func main() {
-	a := uint(1152921505000000000)
-	b := 1152921505000000000
-	c := math.Pow(2, 60)
-	fmt.Println(a)
-	fmt.Println(b)
-	fmt.Println(c)
-	fmt.Println(uint(c))
+	s := ScanS()
+	rs := Reverse(s)
+
+	prev := 0
+	ans := len(rs)
+	for i := 0; i < len(rs); i++ {
+		cur, _ := strconv.Atoi(string(rs[i]))
+		if prev <= cur {
+			ans += cur - prev
+		} else {
+			ans += cur - prev + 10
+		}
+		prev = cur
+		// fmt.Printf("dubug: %d\n", ans)
+	}
+
+	fmt.Println(ans)
 }
 
 func Reverse(s string) string {

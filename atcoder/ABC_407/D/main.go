@@ -10,6 +10,11 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
+var (
+	h, w int
+	a    [][]int
+	max  int
+)
 
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
@@ -17,21 +22,76 @@ func init() {
 }
 
 func main() {
-	a := uint(1152921505000000000)
-	b := 1152921505000000000
-	c := math.Pow(2, 60)
-	fmt.Println(a)
-	fmt.Println(b)
-	fmt.Println(c)
-	fmt.Println(uint(c))
+	h, w = ScanI(), ScanI()
+	a = make([][]int, h)
+	for i := 0; i < h; i++ {
+		a[i] = ScanIArrayWithBlank(w)
+	}
+
+	for i := 0; i < h; i++ {
+		for j := 0; j < w; j++ {
+			max = max ^ a[i][j]
+		}
+	}
+
+	puted := make([][]bool, h)
+	for i := 0; i < h; i++ {
+		puted[i] = make([]bool, w)
+	}
+
+	dfs(puted, 0, 0)
+
+	fmt.Println(max)
 }
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+func dfs(puted [][]bool, ch, cw int) {
+	if ch < 0 || h <= ch || cw < 0 || w <= cw {
+		return
 	}
-	return string(runes)
+
+	if cw == w-1 {
+		dfs(puted, ch+1, 0)
+	} else {
+		dfs(puted, ch, cw+1)
+	}
+
+	if cw < w-2 && !puted[ch][cw] && !puted[ch][cw+1] {
+		puted[ch][cw] = true
+		puted[ch][cw+1] = true
+		nmax := max ^ a[ch][cw]
+		nmax = nmax ^ a[ch][cw+1]
+		if max < nmax {
+			max = nmax
+		}
+		fmt.Println(puted)
+
+		if cw == w-1 {
+			dfs(puted, ch+1, 0)
+		} else {
+			dfs(puted, ch, cw+1)
+		}
+		puted[ch][cw] = false
+		puted[ch][cw+1] = false
+	}
+
+	if ch < h-2 && !puted[ch][cw] && !puted[ch+1][cw] {
+		puted[ch][cw] = true
+		puted[ch+1][cw] = true
+		nmax := max ^ a[ch][cw]
+		nmax = nmax ^ a[ch+1][cw]
+		if max < nmax {
+			max = nmax
+		}
+		fmt.Println(puted)
+
+		if cw == w-1 {
+			dfs(puted, ch+1, 0)
+		} else {
+			dfs(puted, ch, cw+1)
+		}
+		puted[ch][cw] = false
+		puted[ch+1][cw] = false
+	}
 }
 
 func ScanI() int {

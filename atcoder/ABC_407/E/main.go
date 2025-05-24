@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -17,21 +16,7 @@ func init() {
 }
 
 func main() {
-	a := uint(1152921505000000000)
-	b := 1152921505000000000
-	c := math.Pow(2, 60)
-	fmt.Println(a)
-	fmt.Println(b)
-	fmt.Println(c)
-	fmt.Println(uint(c))
-}
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }
 
 func ScanI() int {
