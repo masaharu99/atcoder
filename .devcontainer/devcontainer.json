@@ -1,29 +1,32 @@
 {
-  "name": "Go Development Container",
+  "name": "Go + AtCoder Container",
   "build": {
-      "dockerfile": "Dockerfile",
-      "context": ".."
+    "dockerfile": "Dockerfile",
+    "context": ".."
   },
   "customizations": {
-      "vscode": {
-          "settings": {
-              "go.gopath": "/go",
-              "go.useLanguageServer": true,
-              "go.formatTool": "gofmt",
-              "go.lintTool": "golint",
-              "go.vetOnSave": "package"
-          },
-          "extensions": [
-              "golang.Go",
-              "ms-vscode.go"
-          ]
-      }
+    "vscode": {
+      "settings": {
+        "go.gopath": "/go",
+        "go.useLanguageServer": true,
+        "go.formatTool": "gofmt",
+        "go.lintTool": "golint",
+        "go.vetOnSave": "package"
+      },
+      "extensions": [
+        "golang.Go"
+        // oj の Python 実行や JSON 表示に便利な拡張を追加しても OK
+        // "ms-python.python",
+        // "eamodio.gitlens"
+        // 必要に応じて node/python 系拡張を追加
+      ]
+    }
   },
   "forwardPorts": [],
   "postCreateCommand": "go mod tidy",
   "remoteUser": "vscode",
   "workspaceFolder": "/workspace",
   "mounts": [
-      "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
   ]
 }
