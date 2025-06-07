@@ -17,18 +17,25 @@ func init() {
 }
 
 func main() {
-	a := 1.1 / float64(2)
-	b := 1.7 / float64(2)
-	fmt.Println(int(a))
-	fmt.Println(int(b))
-}
+	n := ScanI()
+	a := ScanIArrayWithBlank(n)
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	max := 0
+
+	for i := 1; i < 101; i++ {
+		cnt := 0
+		for _, v := range a {
+			if i <= v {
+				cnt++
+			}
+		}
+
+		if i <= cnt {
+			max = i
+		}
 	}
-	return string(runes)
+
+	fmt.Println(max)
 }
 
 func ScanI() int {

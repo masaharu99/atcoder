@@ -17,18 +17,14 @@ func init() {
 }
 
 func main() {
-	a := 1.1 / float64(2)
-	b := 1.7 / float64(2)
-	fmt.Println(int(a))
-	fmt.Println(int(b))
-}
+	s := ScanS()
+	n, _ := strconv.Atoi(s[3:])
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	if n != 316 && 0 < n && n < 350 {
+		fmt.Println("Yes")
+	} else {
+		fmt.Println("No")
 	}
-	return string(runes)
 }
 
 func ScanI() int {

@@ -7,6 +7,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
+	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -16,19 +19,44 @@ func init() {
 	sc.Split(bufio.ScanWords)
 }
 
-func main() {
-	a := 1.1 / float64(2)
-	b := 1.7 / float64(2)
-	fmt.Println(int(a))
-	fmt.Println(int(b))
+type pair struct {
+	i, j int
 }
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+func main() {
+	n := ScanI()
+	a := make([]int, n)
+	ngPosition := set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	numToPosition := make([]int, n+1)
+	for i := 0; i < n; i++ {
+		n := ScanI()
+		a[i] = n
+		numToPosition[n] = i
+		if i+1 != n {
+			ngPosition.Insert(i)
+		}
 	}
-	return string(runes)
+
+	cnt := 0
+	arr := make([]pair, 0)
+	for ngPosition.Size() != 0 {
+		fp := ngPosition.First().Value()
+		ngPosition.Erase(fp)
+		cp := numToPosition[fp+1]
+
+		arr = append(arr, pair{fp + 1, cp + 1})
+		a[fp], a[cp] = a[cp], a[fp]
+		cnt++
+
+		if cp+1 == a[cp] {
+			ngPosition.Erase(cp)
+		}
+	}
+
+	fmt.Println(cnt)
+	for _, v := range arr {
+		fmt.Println(v.i, v.j)
+	}
 }
 
 func ScanI() int {
