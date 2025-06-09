@@ -46,11 +46,14 @@ func main() {
 
 		arr = append(arr, pair{fp + 1, cp + 1})
 		a[fp], a[cp] = a[cp], a[fp]
+		numToPosition[a[fp]] = fp
+		numToPosition[a[cp]] = cp
 		cnt++
 
 		if cp+1 == a[cp] {
 			ngPosition.Erase(cp)
 		}
+
 	}
 
 	fmt.Println(cnt)
