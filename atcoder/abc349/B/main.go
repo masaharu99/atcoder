@@ -17,17 +17,24 @@ func init() {
 }
 
 func main() {
-	for i := 'a'; i < 'z'; i++ {
-		fmt.Println(string(i))
-	}
-}
+	s := ScanS()
+	cl := make([]int, len(s)+1)
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	for i := 'a'; i <= 'z'; i++ {
+		n := strings.Count(s, string(i))
+		if n != 0 {
+			cl[n]++
+		}
 	}
-	return string(runes)
+
+	for _, v := range cl {
+		if !(v == 0 || v == 2) {
+			fmt.Println("No")
+			return
+		}
+	}
+
+	fmt.Println("Yes")
 }
 
 func ScanI() int {

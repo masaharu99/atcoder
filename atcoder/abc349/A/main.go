@@ -17,17 +17,15 @@ func init() {
 }
 
 func main() {
-	for i := 'a'; i < 'z'; i++ {
-		fmt.Println(string(i))
-	}
-}
+	n := ScanI()
+	a := ScanIArrayWithBlank(n - 1)
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	ans := 0
+	for _, v := range a {
+		ans += -v
 	}
-	return string(runes)
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {
