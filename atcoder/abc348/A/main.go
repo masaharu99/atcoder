@@ -17,18 +17,17 @@ func init() {
 }
 
 func main() {
-	fmt.Println(1e1)
-	fmt.Println(1e2)
-	fmt.Println(1e3)
-	fmt.Println(1e4)
-}
+	n := ScanI()
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	for i := 0; i < n; i++ {
+		if (i+1)%3 == 0 {
+			fmt.Print("x")
+		} else {
+			fmt.Print("o")
+		}
 	}
-	return string(runes)
+
+	fmt.Println()
 }
 
 func ScanI() int {

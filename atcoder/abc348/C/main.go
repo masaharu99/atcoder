@@ -17,18 +17,34 @@ func init() {
 }
 
 func main() {
-	fmt.Println(1e1)
-	fmt.Println(1e2)
-	fmt.Println(1e3)
-	fmt.Println(1e4)
-}
-
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	n := ScanI()
+	a, c := make([]int, n), make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = ScanI()
+		c[i] = ScanI()
 	}
-	return string(runes)
+
+	// minList := make([]int, 1e9)
+	minList := make(map[int]int)
+	for i := 0; i < n; i++ {
+		color := c[i]
+		if _, ok := minList[color]; !ok {
+			minList[color] = a[i]
+			continue
+		}
+		if a[i] < minList[color] {
+			minList[color] = a[i]
+		}
+	}
+
+	ans := 0
+	for _, v := range minList {
+		if ans < v {
+			ans = v
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {
