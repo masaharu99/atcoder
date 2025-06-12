@@ -26,28 +26,38 @@ func main() {
 	s := set.New(comparator.IntComparator, set.WithGoroutineSafe())
 
 	for _, v := range a {
-		if v <= k {
-			s.Insert(v)
-		}
+		s.Insert(v)
 	}
 
-	ans := k * (1 + k) / 2
-
+	prev := 0
+	sum := 0
 	for s.Size() != 0 {
 		v := s.First().Value()
 		s.Erase(v)
-		ans -= v
+		if k < v {
+			break
+		}
+
+		sum += getAdd(v, prev)
+		prev = v
+
 	}
 
-	fmt.Println(ans)
+	sum += getAdd(k+1, prev)
+
+	fmt.Println(sum)
 }
 
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+func getAdd(v, prev int) int {
+	n := v - (prev + 1)
+	if n < 1 {
+		return 0
 	}
-	return string(runes)
+
+	a := prev + 1
+	l := v - 1
+
+	return n * (a + l) / 2
 }
 
 func ScanI() int {
