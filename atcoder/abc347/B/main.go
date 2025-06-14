@@ -2,10 +2,14 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
+	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -16,7 +20,17 @@ func init() {
 }
 
 func main() {
+	S := ScanS()
+	s := set.New(comparator.StringComparator, set.WithGoroutineSafe())
 
+	for i := 0; i < len(S); i++ {
+		for j := i; j < len(S); j++ {
+			add := string(S[i : j+1])
+			s.Insert(add)
+		}
+	}
+
+	fmt.Println(s.Size())
 }
 
 func ScanI() int {
@@ -95,12 +109,4 @@ func (uf UnionFind) Same(x, y int) bool {
 	}
 
 	return false
-}
-
-func ReverseStr(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }

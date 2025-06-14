@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -9,14 +10,57 @@ import (
 )
 
 var sc = bufio.NewScanner(os.Stdin)
+var ans = math.MaxInt64
 
 func init() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 	sc.Split(bufio.ScanWords)
 }
 
-func main() {
+type Node struct {
+	to int
+	h  int
+}
 
+func main() {
+	n, m := ScanI(), ScanI()
+	a, b, w := make([]int, m), make([]int, m), make([]int, m)
+	node := make([][]Node, n+1)
+	for i := 0; i < m; i++ {
+		a[i] = ScanI()
+		b[i] = ScanI()
+		w[i] = ScanI()
+		node[a[i]] = append(node[a[i]], Node{b[i], w[i]})
+	}
+
+	visited := make([][]bool, n+1)
+	for i := 0; i < n+1; i++ {
+		visited[i] = make([]bool, n+1)
+	}
+
+	bfs(0, 1, n, 0, visited, node)
+
+	if ans == math.MaxInt64 {
+		fmt.Println(-1)
+	} else {
+		fmt.Println(ans)
+	}
+}
+
+func bfs(before, now, n, h int, visited [][]bool, node [][]Node) {
+	if now == n && h < ans {
+		ans = h
+	}
+	visited[now][before] = true
+
+	for _, v := range node[now] {
+		if !visited[v.to][now] {
+			h = h ^ v.h
+			bfs(now, v.to, n, h, visited, node)
+		}
+	}
+
+	visited[now][before] = false
 }
 
 func ScanI() int {
@@ -95,12 +139,4 @@ func (uf UnionFind) Same(x, y int) bool {
 	}
 
 	return false
-}
-
-func ReverseStr(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }

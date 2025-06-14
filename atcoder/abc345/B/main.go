@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -16,7 +17,33 @@ func init() {
 }
 
 func main() {
+	s := ScanS()
+	x := 0
+	isNagative := false
+	if strings.Contains(s, "-") {
+		v, _ := strconv.Atoi(s[1:])
+		x = v
+		isNagative = true
+	} else {
+		v, _ := strconv.Atoi(s)
+		x = v
+	}
 
+	div := x / 10
+	if x%10 == 0 {
+		if isNagative {
+			fmt.Println(-div)
+		} else {
+			fmt.Println(div)
+		}
+		return
+	}
+
+	if isNagative {
+		fmt.Println(-div)
+	} else {
+		fmt.Println(div + 1)
+	}
 }
 
 func ScanI() int {
@@ -95,12 +122,4 @@ func (uf UnionFind) Same(x, y int) bool {
 	}
 
 	return false
-}
-
-func ReverseStr(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }

@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/liyue201/gostl/ds/queue"
 	"github.com/liyue201/gostl/ds/set"
 	"github.com/liyue201/gostl/utils/comparator"
 )
@@ -19,30 +20,58 @@ func init() {
 	sc.Split(bufio.ScanWords)
 }
 
+type Node struct {
+	to int
+	h  int
+}
+
 func main() {
-	n, k := ScanI(), ScanI()
-	a := ScanIArrayWithBlank(n)
+	n, m := ScanI(), ScanI()
+	a, b, w := make([]int, m), make([]int, m), make([]int, m)
+	node := make([][]Node, n+1)
+	for i := 0; i < m; i++ {
+		a[i] = ScanI()
+		b[i] = ScanI()
+		w[i] = ScanI()
+		node[a[i]] = append(node[a[i]], Node{b[i], w[i]})
+	}
 
-	s := set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	q := queue.New[[]int]()
+	visited := make([]*set.Set[int], n+1)
+	for i := 0; i < n+1; i++ {
+		visited[i] = set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	}
 
-	for _, v := range a {
-		if v <= k {
-			s.Insert(v)
+	// now, heavy
+	q.Push([]int{1, 0})
+	visited[1].Insert(0)
+
+	ans := math.MaxInt64
+
+	for !q.Empty() {
+		now := q.Pop()
+		if now[0] == n && now[1] < ans {
+			ans = now[1]
+		}
+
+		for _, v := range node[now[0]] {
+			next := v.to
+			heavy := now[1] ^ v.h
+			if !visited[next].Contains(heavy) {
+				q.Push([]int{next, heavy})
+				visited[next].Insert(heavy)
+			}
 		}
 	}
 
-	ans := k * (1 + k) / 2
-
-	for s.Size() != 0 {
-		v := s.First().Value()
-		s.Erase(v)
-		ans -= v
+	if ans == math.MaxInt64 {
+		fmt.Println(-1)
+	} else {
+		fmt.Println(ans)
 	}
-
-	fmt.Println(ans)
 }
 
-func Reverse(s string) string {
+func ReverseStr(s string) string {
 	runes := []rune(s)
 	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
 		runes[i], runes[j] = runes[j], runes[i]

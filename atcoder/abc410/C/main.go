@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -16,7 +17,37 @@ func init() {
 }
 
 func main() {
+	n, q := ScanI(), ScanI()
+	queryList := make([][]int, q)
+	for i := 0; i < q; i++ {
+		t, q1 := ScanI(), ScanI()
+		if t == 1 {
+			q2 := ScanI()
+			queryList[i] = []int{t, q1, q2}
+		} else {
+			queryList[i] = []int{t, q1}
+		}
+	}
 
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = i + 1
+	}
+
+	start := 0
+	for _, query := range queryList {
+		t := query[0]
+		p := (start + query[1] - 1) % n
+		if t == 1 {
+			a[p] = query[2]
+		}
+		if t == 2 {
+			fmt.Println(a[p])
+		}
+		if t == 3 {
+			start += query[1]
+		}
+	}
 }
 
 func ScanI() int {
@@ -95,12 +126,4 @@ func (uf UnionFind) Same(x, y int) bool {
 	}
 
 	return false
-}
-
-func ReverseStr(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }

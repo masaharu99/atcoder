@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -16,7 +17,18 @@ func init() {
 }
 
 func main() {
+	n := ScanI()
+	a := ScanIArrayWithBlank(n)
+	k := ScanI()
 
+	ans := 0
+	for _, v := range a {
+		if k <= v {
+			ans++
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {
@@ -95,12 +107,4 @@ func (uf UnionFind) Same(x, y int) bool {
 	}
 
 	return false
-}
-
-func ReverseStr(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }
