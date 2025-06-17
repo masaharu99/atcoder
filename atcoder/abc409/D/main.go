@@ -31,30 +31,30 @@ func main() {
 	}
 
 	for _, v := range c {
-		l := -1
-		r := -1
-		for i := 0; i < v.n-1; i++ {
-			if v.s[i] > v.s[i+1] {
-				l = i
-				break
-			}
-		}
-		if l == -1 {
+		if v.n == 1 {
 			fmt.Println(v.s)
 			continue
 		}
-
-		for i := l + 2; i < v.n; i++ {
-			if v.s[l] < v.s[i] {
-				r = i
-				break
+		ans := ""
+		for i := 0; i < v.n-1; i++ {
+			if v.s[i] <= v.s[i+1] {
+				continue
 			}
-		}
-		if r == -1 {
-			r = v.n
-		}
 
-		ans := v.s[:l] + v.s[l+1:r] + string(v.s[l]) + v.s[r:]
+			for j := i + 1; j < v.n; j++ {
+				if v.s[i] < v.s[j] {
+					ans = v.s[:i] + v.s[i+1:j] + string(v.s[i]) + v.s[j:]
+					break
+				}
+				if j == v.n-1 {
+					ans = v.s[:i] + v.s[i+1:] + string(v.s[i])
+				}
+			}
+			break
+		}
+		if ans == "" {
+			ans = v.s
+		}
 		fmt.Println(ans)
 	}
 }
