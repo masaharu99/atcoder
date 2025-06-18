@@ -2,10 +2,14 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
+	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -16,7 +20,46 @@ func init() {
 }
 
 func main() {
+	h, w, n := ScanI(), ScanI(), ScanI()
+	xn := make([]*set.Set[int], h+1)
+	yn := make([]*set.Set[int], w+1)
+	for i := 0; i < h+1; i++ {
+		xn[i] = set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	}
+	for i := 0; i < w+1; i++ {
+		yn[i] = set.New(comparator.IntComparator, set.WithGoroutineSafe())
+	}
 
+	for i := 0; i < n; i++ {
+		x, y := ScanI(), ScanI()
+		xn[x].Insert(y)
+		yn[y].Insert(x)
+	}
+	q := ScanI()
+	query := make([][]int, q)
+	for i := 0; i < q; i++ {
+		query[i] = []int{ScanI(), ScanI()}
+	}
+
+	for _, v := range query {
+		q1 := v[0]
+		q2 := v[1]
+		if q1 == 1 {
+			fmt.Println(xn[q2].Size())
+			for xn[q2].Size() != 0 {
+				y := xn[q2].First().Value()
+				xn[q2].Erase(y)
+				yn[y].Erase(q2)
+			}
+		} else {
+			fmt.Println(yn[q2].Size())
+			for yn[q2].Size() != 0 {
+				x := yn[q2].First().Value()
+				yn[q2].Erase(x)
+				xn[x].Erase(q2)
+			}
+		}
+	}
 }
 
 func ScanI() int {

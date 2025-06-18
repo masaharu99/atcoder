@@ -2,11 +2,12 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/liyue201/gostl/ds/set"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -16,47 +17,9 @@ func init() {
 	sc.Split(bufio.ScanWords)
 }
 
-type Case struct {
-	n int
-	s string
-}
-
 func main() {
-	t := ScanI()
-	c := make([]Case, t)
-	for i := 0; i < t; i++ {
-		n := ScanI()
-		s := ScanS()
-		c[i] = Case{n, s}
-	}
-
-	for _, v := range c {
-		l := -1
-		r := -1
-		for i := 0; i < v.n-1; i++ {
-			if v.s[i] > v.s[i+1] {
-				l = i
-				break
-			}
-		}
-		if l == -1 {
-			fmt.Println(v.s)
-			continue
-		}
-
-		for i := l + 2; i < v.n; i++ {
-			if v.s[l] < v.s[i] {
-				r = i
-				break
-			}
-		}
-		if r == -1 {
-			r = v.n
-		}
-
-		ans := v.s[:l] + v.s[l+1:r] + string(v.s[l]) + v.s[r:]
-		fmt.Println(ans)
-	}
+	a := make([]*set.Set[int], 3)
+	a[0].Insert(1)
 }
 
 func ScanI() int {
