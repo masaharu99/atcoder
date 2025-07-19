@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
-
-	"github.com/liyue201/gostl/ds/set"
-	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -21,23 +19,59 @@ func init() {
 
 func main() {
 	t := ScanI()
-	n := make([]int, t)
-	s := make([]string, t)
-	for i := 0; i < t; i++ {
-		n[i] = ScanI()
-		s[i] = ScanS()
-	}
+	sl := make([][]int, t)
+	first := make([]int, t)
+	last := make([]int, t)
 
 	for i := 0; i < t; i++ {
-		danger := set.New(comparator.StringComparator, set.WithGoroutineSafe())
-		for j, v := range s[i] {
-			if v == '1' {
-				b := fmt.Sprintf("%018b", j+1)
-				danger.Insert(ReverseStr(b))
+		n := ScanI()
+		tmp := ScanIArrayWithBlank(n)
+		first[i] = tmp[0]
+		last[i] = tmp[n-1]
+		sort.Slice(tmp, func(i, j int) bool {
+			return tmp[i] < tmp[j]
+		})
+		sl[i] = tmp
+	}
+
+	for i, s := range sl {
+		if first[i]*2 >= last[i] {
+			fmt.Println(2)
+			continue
+		}
+		cur := first[i]
+		ans := 2
+		for {
+			v := binarySearch(s, cur)
+			if v == cur {
+				fmt.Println(-1)
+				break
 			}
+
+			ans++
+			if v*2 >= last[i] {
+				fmt.Println(ans)
+				break
+			}
+			cur = v
 		}
 	}
+}
 
+func binarySearch(s []int, cur int) int {
+	l, r := 0, len(s)-1
+	for {
+		mid := (l + r) / 2
+		if r-l == 1 {
+			return s[l]
+		}
+
+		if s[mid] <= cur*2 {
+			l = mid
+		} else {
+			r = mid
+		}
+	}
 }
 
 func ScanI() int {
