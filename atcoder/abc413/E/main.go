@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -17,13 +16,7 @@ func init() {
 }
 
 func main() {
-	s := "abcde"
-	r := s[0]
-	if r == 0 {
-		fmt.Println("same")
-	} else {
-		fmt.Println("difficult")
-	}
+
 }
 
 func ScanI() int {

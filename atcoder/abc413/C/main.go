@@ -17,12 +17,45 @@ func init() {
 }
 
 func main() {
-	s := "abcde"
-	r := s[0]
-	if r == 0 {
-		fmt.Println("same")
-	} else {
-		fmt.Println("difficult")
+	q := ScanI()
+	queryList := make([][]int, q)
+
+	for i := 0; i < q; i++ {
+		t := ScanI()
+		if t == 1 {
+			queryList[i] = []int{t, ScanI(), ScanI()}
+		} else {
+			queryList[i] = []int{t, ScanI()}
+		}
+	}
+
+	// 値、個数の順番
+	vl := make([][]int, 0, q)
+	head := 0
+
+	for _, query := range queryList {
+		if query[0] == 1 {
+			vl = append(vl, []int{query[2], query[1]})
+			continue
+		}
+		// fmt.Printf("debug: vl=%v, head=%d\n", vl, head)
+
+		cut := query[1]
+		ans := 0
+		for cut > 0 {
+			if vl[head][1] > cut {
+				ans += vl[head][0] * cut
+				vl[head][1] -= cut
+				cut = 0
+			} else {
+				v := vl[head][0]
+				n := vl[head][1]
+				ans += v * n
+				cut -= n
+				head++
+			}
+		}
+		fmt.Println(ans)
 	}
 }
 

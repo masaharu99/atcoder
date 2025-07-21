@@ -17,12 +17,21 @@ func init() {
 }
 
 func main() {
-	s := "abcde"
-	r := s[0]
-	if r == 0 {
-		fmt.Println("same")
+	n, m := ScanI(), ScanI()
+	sum := 0
+	for i := 0; i < n; i++ {
+		sum += ScanI()
+		if m < sum {
+			fmt.Println("No")
+		} else {
+			fmt.Println("Yes")
+		}
+	}
+
+	if m < sum {
+		fmt.Println("No")
 	} else {
-		fmt.Println("difficult")
+		fmt.Println("Yes")
 	}
 }
 

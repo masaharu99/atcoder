@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/liyue201/gostl/ds/set"
-	"github.com/liyue201/gostl/utils/comparator"
 )
 
 var sc = bufio.NewScanner(os.Stdin)
@@ -21,34 +20,40 @@ func init() {
 
 func main() {
 	t := ScanI()
-	n := make([]int, t)
-	s := make([]string, t)
-	for i := 0; i < t; i++ {
-		n[i] = ScanI()
-		s[i] = ScanS()
-	}
 
 	for i := 0; i < t; i++ {
-		danger := set.New(comparator.StringComparator, set.WithGoroutineSafe())
-		for j, v := range s[i] {
-			if v == '1' {
-				b := fmt.Sprintf("%018b", j+1)
-				danger.Insert(ReverseStr(b))
+		n := ScanI()
+		s := "0" + ScanS()
+
+		ok := make([]bool, 1<<n)
+		ok[0] = true
+
+		for j := 0; j < 1<<n; j++ {
+			if !ok[j] {
+				continue
+			}
+
+			for k := 0; k < n; k++ {
+				// すでに混ぜている
+				if j&(1<<k) != 0 {
+					continue
+				}
+
+				next := j | (1 << k)
+				// fmt.Printf("debug: next=%d, s=%s\n", next, s)
+				if s[next] == '0' {
+					// fmt.Println("merge")
+					ok[next] = true
+				}
 			}
 		}
 
-		cur := strings.Repeat("0", 18)
-		merged := make([]bool, n[i])
-		ans := "No"
-
-		for j := 1; j < n[i]+1; j++ {
-			res := dfs(cur, j, merged, 0, danger)
-			if res {
-				ans = "Yes"
-				break
-			}
+		// fmt.Println(ok)
+		if ok[(1<<n)-1] {
+			fmt.Println("Yes")
+		} else {
+			fmt.Println("No")
 		}
-		fmt.Println(ans)
 	}
 }
 
