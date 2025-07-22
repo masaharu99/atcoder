@@ -17,9 +17,17 @@ func init() {
 }
 
 func main() {
-	a := 6
-	b := 3
-	fmt.Println(a / b)
+	n, l, r := ScanI(), ScanI(), ScanI()
+	ans := 0
+
+	for i := 0; i < n; i++ {
+		x, y := ScanI(), ScanI()
+		if x <= l && r <= y {
+			ans++
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {

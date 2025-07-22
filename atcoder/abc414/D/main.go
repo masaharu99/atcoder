@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -17,9 +16,7 @@ func init() {
 }
 
 func main() {
-	a := 6
-	b := 3
-	fmt.Println(a / b)
+
 }
 
 func ScanI() int {

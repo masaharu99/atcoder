@@ -17,9 +17,21 @@ func init() {
 }
 
 func main() {
-	a := 6
-	b := 3
-	fmt.Println(a / b)
+	n := ScanI()
+	ans := ""
+
+	for i := 0; i < n; i++ {
+		c := ScanS()
+		l := ScanI()
+		if len(ans)+l > 100 {
+			ans = "Too Long"
+		}
+		if ans != "Too Long" {
+			ans += strings.Repeat(c, l)
+		}
+	}
+
+	fmt.Println(ans)
 }
 
 func ScanI() int {
